@@ -1,0 +1,10 @@
+name: JWT UI
+title: "JWT UI"
+description: A Terminal UI for decoding/encoding JSON Web Tokens
+logo: "/artwork/CIC_icon.png"
+theme: jekyll-theme-hacker
+show_downloads: "true"
+repository: https://github.com/kdash-rs/kdash
+github:
+  repository_url: https://github.com/jwt-rs/jwt-ui
+  tar_url: https://github.com/jwt-rs/jwt-ui/releases/latest
