@@ -1,4 +1,3 @@
-
 ```
      ____.__      _____________       ____ ___.___
     |    /  \    /  \__    ___/      |    |   \   |
@@ -24,9 +23,9 @@ Crafted by
   - **RSA** - `RS{256,384,512}`, `PS{256,384,512}`: PEM file, DER file, PKCS8 file, JWKS (JSON text and `.json` file)
   - **ECDSA** - `ES{256,384}`: PEM file, DER file, PKCS8 file, JWKS (JSON text and `.json` file)
   - **EdDSA** : PEM file, DER file, PKCS8 file, JWKS (JSON text and `.json` file)
-  - - Note: JWKS support is only for decoding
+  - - Note: JWKS support is only for decoding. For encoding use PEM/DER/PKCS8 files for RSA/ECDSA/EdDSA and plain/base64 text for HMAC
 - Dark/Light themes
-- Sensible keyboard shortcuts
+- Sensible keyboard shortcuts and Mouse support
 - Copy to clipboard
 - STDOUT mode
 
@@ -79,7 +78,7 @@ curl https://raw.githubusercontent.com/jwt-rs/jwt-ui/main/deployment/getLatest.s
 Run JWT UI as a Docker container.
 
 ```bash
-docker run --rm deepu105/jwt-ui
+docker run --rm -it deepu105/jwt-ui
 ```
 
 You can also clone this repo and run `make docker` to build a docker image locally and run it using the above command
@@ -111,6 +110,9 @@ jwtui -S $(curl https://domain.auth0.com/.well-known/jwks.json) [TOKEN]
 # Print decoded token to stdout with HMAC plain text secret
 jwtui -s -S 'plain_text_secret' [TOKEN]
 
+# Print decoded token to stdout without signature validation.
+jwtui -sn [TOKEN]
+
 # Print decoded token to stdout with HMAC base64 encoded secret
 jwtui -s -S 'b64:eW91ci0yNTYtYml0LXNlY3JldAo=' [TOKEN]
 
@@ -128,10 +130,11 @@ Arguments:
 
 Options:
 
-- `-s, --stdout` whether the CLI should run in TUI mode or just print to stdout
-- `-j, --json` whether stdout should be formatted as JSON
+- `-S, --secret <SECRET>` Secret for validating the JWT. Can be text, file path (beginning with @) or base64 encoded string (beginning with b64:) [default: ]
+- `-s, --stdout` Print to STDOUT instead of starting the CLI in TUI mode
+- `-n, --no-verify` Do not validate the signature of the JWT when printing to STDOUT.
+- `-j, --json` Format STDOUT as JSON
 - `-t, --tick-rate <TICK_RATE>` Set the tick rate (milliseconds): the lower the number the higher the FPS. Must be less than 1000 [default: 250]
-- `-S, --secret <SECRET>` secret for validating the JWT. Can be text, file path (beginning with @) or base64 encoded string (beginning with b64:) [default: ]
 - `-h, --help` Print help
 - `-V, --version` Print version
 
@@ -159,7 +162,9 @@ If you are looking for a non TUI CLI, check out [jwt-cli](https://github.com/mik
 
 ## Limitations/Known issues
 
-- Copy to clipboard is not supported on `aarch64` and `arm` machines.
+- **[Linux/Docker]** Copy to clipboard feature is OS/arch dependent and might crash in some Linux distros and is not supported on `aarch64` and `arm` machines.
+- **[macOS]** KDash looks better on iTerm2 since macOS's default Terminal app makes the colors render weird.
+- **[Windows]** KDash looks better on CMD since Powershell's default theme makes the colors look weird.
 
 ## Libraries used
 
@@ -188,4 +193,3 @@ MIT
 [![GitHub Downloads](https://img.shields.io/github/downloads/jwt-rs/jwt-ui/total.svg?label=GitHub%20downloads)](https://github.com/jwt-rs/jwt-ui/releases)
 ![Crate.io downloads](https://img.shields.io/crates/d/jwt-ui?label=Crate%20downloads)
 ![Docker pulls](https://img.shields.io/docker/pulls/deepu105/jwt-ui?label=Docker%20downloads)
-
